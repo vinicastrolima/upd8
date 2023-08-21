@@ -39,7 +39,39 @@ class ClientesTableSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-            // Adicione mais clientes conforme necessário
+            [
+                'cpf' => '98765432102',
+                'nome' => 'Beatriz Barbosa',
+                'data_nascimento' => '1985-08-25',
+                'sexo' => 'mulher',
+                'endereco' => 'Avenida B, 456',
+                'estado_id' => 2,
+                'cidade_id' => 7,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'cpf' => '98765432103',
+                'nome' => 'Danilo Dantas',
+                'data_nascimento' => '1985-08-25',
+                'sexo' => 'homem',
+                'endereco' => 'Avenida B, 456',
+                'estado_id' => 2,
+                'cidade_id' => 7,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'cpf' => '98765432104',
+                'nome' => 'Vinicius Castro',
+                'data_nascimento' => '1985-08-25',
+                'sexo' => 'homem',
+                'endereco' => 'Avenida B, 456',
+                'estado_id' => 2,
+                'cidade_id' => 7,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ];
 
         DB::table('clientes')->insert($clientes);
