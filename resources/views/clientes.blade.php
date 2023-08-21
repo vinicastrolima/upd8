@@ -209,6 +209,30 @@
 
             filtrarClientes(termos); // Chamar a função de filtragem com os termos
         });
+
+        formFiltrar.on('reset', function(event) {
+            event.preventDefault();
+
+            // Limpar todos os campos do formulário
+            $('input[name="cpf"]').val('');
+            $('input[name="nome"]').val('');
+            $('input[name="data_nascimento"]').val('');
+            $('select[name="sexo"]').val('');
+            $('input[name="endereco"]').val('');
+            $('select[name="estado"]').val('');
+            $('select[name="cidade"]').val('');
+
+            // Chamar a função de filtragem com todos os campos vazios
+            filtrarClientes({
+                cpf: '',
+                nome: '',
+                data_nascimento: '',
+                sexo: '',
+                endereco: '',
+                estado_id: '',
+                cidade_id: ''
+            });
+        });
     });
 
     $(document).ready(function() {

@@ -133,14 +133,14 @@ class ClientesController extends Controller
     public function buscarClientes(Request $request)
     {
         $termos = $request->input('termos');
-
+    
         // Verificar se $termos é nulo ou não
         if ($termos === null) {
             $termos = [];
         }
-
+    
         $clientes = Cliente::query()->with('estado', 'municipio');
-
+    
         // Verificar se há algum termo definido
         $termosVazios = true;
         foreach ($termos as $termo) {
@@ -149,7 +149,7 @@ class ClientesController extends Controller
                 break;
             }
         }
-
+    
         if (!$termosVazios) {
             foreach ($termos as $campo => $termo) {
                 if ($termo) {
@@ -162,12 +162,16 @@ class ClientesController extends Controller
                     }
                 }
             }
+        } else {
+            // Se não houver termos definidos, retorna todos os clientes
+            $clientes->get();
         }
-
+    
         $clientes = $clientes->get();
-
+    
         return response()->json($clientes);
     }
+    
 
 
     /**
