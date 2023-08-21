@@ -81,10 +81,11 @@ class ClientesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cliente $clientes)
+    public function show($id)
     {
         $cliente = Cliente::findOrFail($id);
-        $cliente->update($request->all());
+        $clientes = Cliente::with('estado', 'municipio')->get();
+
         return response()->json($cliente, 200);
     }
 
