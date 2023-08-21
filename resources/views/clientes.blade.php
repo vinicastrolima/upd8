@@ -136,7 +136,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="salvarEdicao">Salvar</button>
+                <button type="button" class="btn btn-primary salvar" id="salvarEdicao">Salvar</button>
             </div>
         </div>
     </div>
@@ -322,7 +322,7 @@
             $('#excluirModal' + clienteId).modal('show');
         });
 
-        $(document).on('click', '.modal .close, .modal .btn-secondary', function() {
+        $(document).on('click', '.modal .close, .modal .btn-secondary, .salvar', function() {
             var clienteId = $(this).closest('.modal').attr('id').replace('excluirModal', '');
             var clienteId = $(this).closest('.modal').attr('id').replace('editarModal', '');
             $('.modal-backdrop').remove(); // Remover apenas o backdrop
