@@ -134,8 +134,8 @@ class ClientesController extends Controller
     {
         $termos = $request->input('termos'); // Array com os termos de pesquisa
 
-        $clientes = Cliente::query();
-
+        $clientes = Cliente::query()->with('estado', 'municipio');
+    
         foreach ($termos as $campo => $termo) {
             if ($termo) {
                 if ($campo === 'estado_id' || $campo === 'cidade_id') {

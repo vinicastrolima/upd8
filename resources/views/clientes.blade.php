@@ -151,37 +151,59 @@
     $(document).ready(function() {
         const formFiltrar = $('#form-filtrar');
 
-        function carregarClientes(clientes) {
-            var tableBody = $('#table-body');
-            tableBody.empty();
-
-            clientes.forEach(function(cliente) {
-                var row = '<tr>' +
-                    '<td>' + cliente.cpf + '</td>' +
-                    '<td>' + cliente.nome + '</td>' +
-                    '<td>' + cliente.data_nascimento + '</td>' +
-                    '<td>' + cliente.sexo + '</td>' +
-                    '<td>' + cliente.endereco + '</td>' +
-                    '<td>' + cliente.estado.nome + '</td>' +
-                    '<td>' + cliente.municipio.nome + '</td>' +
-                    '<td>' +
-                    '<div class="d-flex justify-content-between">' +
-                    '<button class="btn btn-success editar-btn" data-toggle="modal" data-target="#editarModal" data-id="' + cliente.id + '">Editar</button>' +
-                    '<button class="btn btn-danger excluir-btn" data-toggle="modal" data-target="#excluirModal' + cliente.id + '" data-id="' + cliente.id + '" data-cpf="' + cliente.cpf + '" data-nome="' + cliente.nome + '">Excluir</button>' +
-                    '</div>' +
-                    '</td>' +
-                    '</tr>';
-                tableBody.append(row);
-            });
-        }
-
         function filtrarClientes(termos) {
             $.ajax({
                 url: '/api/buscar-clientes', // Rota para a função de busca/filtragem no backend
                 type: 'GET',
                 data: { termos: termos },
                 success: function(data) {
-                    carregarClientes(data); // Chamar a função carregarClientes() com os dados filtrados
+                    var tableBody = $('#table-body');
+                    tableBody.empty();
+                    console.log('Apagou a tabela')
+
+                    data.forEach(function(cliente) {
+                        var row = '<tr>' +
+                            '<td>' + cliente.cpf + '</td>' +
+                            '<td>' + cliente.nome + '</td>' +
+                            '<td>' + cliente.data_nascimento + '</td>' +
+                            '<td>' + cliente.sexo + '</td>' +
+                            '<td>' + cliente.endereco + '</td>' +
+                            '<td>' + cliente.estado.nome + '</td>' +
+                            '<td>' + cliente.municipio.nome + '</td>' +
+                            '<td>' +
+                            '<div class="d-flex justify-content-between">' +
+                            '<button class="btn btn-success editar-btn" data-toggle="modal" data-target="#editarModal" data-id="' + cliente.id + '">Editar</button>' +
+                            '<button class="btn btn-danger excluir-btn" data-toggle="modal" data-target="#excluirModal' + cliente.id + '" data-id="' + cliente.id + '" data-cpf="' + cliente.cpf + '" data-nome="' + cliente.nome + '">Excluir</button>' +
+                            '</div>' +
+                            '</td>' +
+                            '</tr>';
+                        tableBody.append(row);
+
+                        // Criação do modal para este cliente
+                        var modal = '<div class="modal fade" id="excluirModal' + cliente.id + '" tabindex="-1" aria-labelledby="excluirModalLabel" aria-hidden="true">' +
+                            '<div class="modal-dialog">' +
+                            '<div class="modal-content">' +
+                            '<div class="modal-header">' +
+                            '<h5 class="modal-title" id="excluirModalLabel">Excluir Cliente</h5>' +
+                            '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '</button>' +
+                            '</div>' +
+                            '<div class="modal-body">' +
+                            '<p>Tem certeza de que deseja excluir o cliente?</p>' +
+                            '<p><strong>CPF:</strong> <span id="excluirCpf' + cliente.id + '"></span></p>' +
+                            '<p><strong>Nome:</strong> <span id="excluirNome' + cliente.id + '"></span></p>' +
+                            '</div>' +
+                            '<div class="modal-footer">' +
+                            '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>' +
+                            '<button type="button" class="btn btn-danger" id="confirmarExclusao">Confirmar</button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                        $('body').append(modal);
+                    });
+                    console.log('tentou montar o modal')
                 },
                 error: function(error) {
                     console.log(error);
