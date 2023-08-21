@@ -10,7 +10,7 @@
     <div class="card">
         <div class="card-body">
             <!-- Formulário de cadastro -->
-            <form id="form-cadastrar">
+            <form id="form-cadastrar" action="http://127.0.0.1:8000/api/clientes" method="post">
                 <!-- Primeira linha -->
                 <div class="form-row mt-2">
                     <div class="col-md-4">
@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-md-4">
                         <label for="cpf">CPF</label>
-                        <input type="text" class="form-control" id="cpf" name="cpf">
+                        <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14">
                     </div>
                     <div class="col-md-4">
                         <label for="sexo">Sexo</label>
@@ -44,13 +44,13 @@
                 <div class="form-row mt-2">
                     <div class="col-md-6">
                         <label for="estado">Estado</label>
-                        <select class="form-control" id="estado" name="estado">
+                        <select class="form-control" id="estado" name="estado_id">
                             <!-- Opções de estado aqui, se necessário -->
                         </select>
                     </div>
                     <div class="col-md-6">
                         <label for="cidade">Cidade</label>
-                        <select class="form-control" id="cidade" name="cidade">
+                        <select class="form-control" id="cidade" name="cidade_id">
                             <!-- Opções de cidade populadas dinamicamente -->
                         </select>
                     </div>
@@ -112,7 +112,33 @@
             const estadoId = estadoSelect.val();
             preencherCidades(estadoId);
         });
+
+        $("#btn-cadastrar").on("click", function() {
+            const formData = {
+                // Obtenha os valores dos campos do formulário aqui
+            };
+
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/clientes',
+                type: 'POST',
+                data: formData,
+                success: function(response, status, xhr) {
+                    if (xhr.status === 200) {
+                        alert('Cliente cadastrado com sucesso');
+                        location.reload(); // Recarrega a página
+                    } else {
+                        console.error("Resposta inesperada:", xhr.status);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    const errorMessage = xhr.responseText || error;
+                    alert("Erro ao cadastrar cliente: " + errorMessage);
+                }
+            });
+        });
+
     });
 </script>
 @endsection
-    
+
+

@@ -46,7 +46,7 @@ class ClientesController extends Controller
     {
         // Validar os dados do request
         $validator = Validator::make($request->all(), [
-            'cpf' => 'required|string|size:11|unique:clientes,cpf',
+            'cpf' => 'required|string|size:14|unique:clientes,cpf',
             'nome' => 'required|string|max:100',
             'data_nascimento' => 'required|date',
             'sexo' => 'required|string|in:homem,mulher',
@@ -74,7 +74,8 @@ class ClientesController extends Controller
             'cidade_id' => $request->cidade_id,
         ]);
 
-        return response()->json($cliente, 201);
+        return redirect('clientes/cadastrar');
+
     }
 
     /**
@@ -125,7 +126,7 @@ class ClientesController extends Controller
             'cidade_id' => $request->cidade_id,
         ]);
 
-        return response()->json($cliente, 200);
+        return response('', 200);
     }
 
     /**
