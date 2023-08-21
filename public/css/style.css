@@ -90,3 +90,36 @@ body {
     margin: 0 2px; 
     white-space: nowrap;
 }
+
+/* Estilos do modal */
+.modal-content {
+    background-color: var(--cor-fundo-card);
+    color: white;
+    border: none;
+}
+
+.modal-header {
+    background-color: var(--cor-fundo-card);
+    border: none;
+    padding: 10px 20px;
+}
+
+.modal-title {
+    color: var(--cor-primaria);
+}
+
+.modal-body {
+    background-color: var(--cor-fundo-card);
+    padding: 20px;
+}
+
+.modal-footer {
+    background-color: var(--cor-fundo-card);
+    border: none;
+    padding: 10px 20px;
+}
+
+.btn-danger {
+    background-color: var(--cor-secundaria);
+    border-color: var(--cor-secundaria);
+}

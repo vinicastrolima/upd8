@@ -74,26 +74,15 @@
         </div>
     </div>
 </div>
+
+
 @endsection
 
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('.excluir-btn').click(function() {
-            var clienteId = $(this).data('id');
-
-            $.ajax({
-                url: '/api/clientes/' + clienteId,
-                type: 'DELETE',
-                success: function(response) {
-                    carregarClientes();
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        });
 
         function carregarClientes() {
             $.ajax({
@@ -115,11 +104,35 @@
                             '<td>' +
                             '<div class="d-flex justify-content-between">' +
                             '<button class="btn btn-success editar-btn">Editar</button>' +
-                            '<button class="btn btn-danger excluir-btn" data-id="' + cliente.id + '">Excluir</button>' +
+                            '<button class="btn btn-danger excluir-btn" data-toggle="modal" data-target="#excluirModal' + cliente.id + '" data-id="' + cliente.id + '" data-cpf="' + cliente.cpf + '" data-nome="' + cliente.nome + '">Excluir</button>' +
                             '</div>' +
                             '</td>' +
                             '</tr>';
                         tableBody.append(row);
+
+                        // Criação do modal para este cliente
+                        var modal = '<div class="modal fade" id="excluirModal' + cliente.id + '" tabindex="-1" aria-labelledby="excluirModalLabel" aria-hidden="true">' +
+                            '<div class="modal-dialog">' +
+                            '<div class="modal-content">' +
+                            '<div class="modal-header">' +
+                            '<h5 class="modal-title" id="excluirModalLabel">Excluir Cliente</h5>' +
+                            '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '</button>' +
+                            '</div>' +
+                            '<div class="modal-body">' +
+                            '<p>Tem certeza de que deseja excluir o cliente?</p>' +
+                            '<p><strong>CPF:</strong> <span id="excluirCpf' + cliente.id + '"></span></p>' +
+                            '<p><strong>Nome:</strong> <span id="excluirNome' + cliente.id + '"></span></p>' +
+                            '</div>' +
+                            '<div class="modal-footer">' +
+                            '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>' +
+                            '<button type="button" class="btn btn-danger" id="confirmarExclusao">Confirmar</button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                        $('body').append(modal);
                     });
                 },
                 error: function(error) {
@@ -127,6 +140,36 @@
                 }
             });
         }
+
+        $(document).on('click', '.excluir-btn', function() {
+            var clienteId = $(this).data('id');
+            var clienteCpf = $(this).data('cpf');
+            var clienteNome = $(this).data('nome');
+
+            console.log("CPF:", clienteCpf);
+            console.log("Nome:", clienteNome);
+
+            $('#excluirCpf' + clienteId).text(clienteCpf);
+            $('#excluirNome' + clienteId).text(clienteNome);
+
+            $('#excluirModal' + clienteId).modal('show');
+        });
+
+        $(document).on('click', '#confirmarExclusao', function() {
+            var clienteId = $(this).closest('.modal').attr('id').replace('excluirModal', '');
+
+            $.ajax({
+                url: '/api/clientes/' + clienteId,
+                type: 'DELETE',
+                success: function(response) {
+                    carregarClientes();
+                    $('#excluirModal' + clienteId).modal('hide');
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
 
         carregarClientes();
     });
