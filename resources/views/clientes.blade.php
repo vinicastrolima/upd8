@@ -10,35 +10,46 @@
                     <!-- Formulário de filtragem -->
                     <form id="form-filtrar">
                         <div class="form-row">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <input type="text" class="form-control" name="cpf" placeholder="CPF">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <input type="text" class="form-control" name="nome" placeholder="Nome">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <input type="date" class="form-control" name="data_nascimento" placeholder="Data de Nascimento">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <select class="form-control" name="sexo">
                                     <option value="">Sexo</option>
                                     <option value="homem">Homem</option>
                                     <option value="mulher">Mulher</option>
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                        </div>
+                        <div class="form-row mt-2">
+                            <div class="col-md-4">
                                 <input type="text" class="form-control" name="endereco" placeholder="Endereço">
                             </div>
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" name="estado" placeholder="Estado">
+                            <div class="col-md-4">
+                                <select class="form-control" id="estado" name="estado_id">
+                                    <!-- Opções de estado aqui, se necessário -->
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control" id="cidade" name="cidade_id">
+                                    <!-- Opções de cidade populadas dinamicamente -->
+                                </select>
                             </div>
                         </div>
                         <div class="form-row mt-2">
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" name="cidade" placeholder="Cidade">
+                            <div class="col-md-6">
+                                <!-- Espaço vazio para manter a formatação correta -->
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <button type="submit" class="btn btn-primary">Filtrar</button>
+                            </div>
+                            <div class="col-md-3">
                                 <button type="reset" class="btn btn-secondary ml-2">Limpar</button>
                             </div>
                         </div>
