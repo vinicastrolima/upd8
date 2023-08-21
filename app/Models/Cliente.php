@@ -25,6 +25,6 @@ class Cliente extends Model
 
     public function estado()
     {
-        return $this->belongsTo(Estado::class);
+        return $this->belongsTo(Estado::class, 'estado_id');
     }
 }

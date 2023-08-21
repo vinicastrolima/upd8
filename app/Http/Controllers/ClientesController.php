@@ -46,7 +46,7 @@ class ClientesController extends Controller
     {
         // Validar os dados do request
         $validator = Validator::make($request->all(), [
-            'cpf' => 'required|string|size:14|unique:clientes,cpf',
+            'cpf' => 'required|string|size:11|unique:clientes,cpf',
             'nome' => 'required|string|max:100',
             'data_nascimento' => 'required|date',
             'sexo' => 'required|string|in:homem,mulher',
@@ -99,7 +99,7 @@ class ClientesController extends Controller
             'cpf' => [
                 'required',
                 'string',
-                'size:11',
+                'size:14',
                 Rule::unique('clientes')->ignore($cliente->id),
             ],
             'nome' => 'required|string|max:100',
