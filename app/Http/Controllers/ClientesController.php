@@ -153,12 +153,12 @@ class ClientesController extends Controller
         if (!$termosVazios) {
             foreach ($termos as $campo => $termo) {
                 if ($termo) {
-                    if ($campo === 'estado_id' || $campo === 'cidade_id') {
+                    if ($campo === 'estado' || $campo === 'cidade') {
                         $clientes->whereHas($campo, function ($query) use ($termo) {
                             $query->where('nome', 'LIKE', "%$termo%");
                         });
                     } else {
-                        $clientes->orWhere($campo, 'LIKE', "%$termo%");
+                        $clientes->where($campo, 'LIKE', "%$termo%");
                     }
                 }
             }
