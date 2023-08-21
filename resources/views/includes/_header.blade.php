@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item {{ Request::is('clientes') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('clientes.index') }}">Visualizar Clientes</a>
+                <a class="nav-link" href="{{ url('clientes') }}">Visualizar Clientes</a>
             </li>
             <li class="nav-item {{ Request::is('clientes/cadastrar') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('clientes/cadastrar') }}">Cadastrar Clientes</a>
