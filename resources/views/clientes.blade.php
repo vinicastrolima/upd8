@@ -10,39 +10,45 @@
                     <!-- Formulário de filtragem -->
                     <form id="form-filtrar">
                         <div class="form-row">
-                            <div class="col-md-2">
+                            <div class="col-md-3 col-sm-6 mb-2">
                                 <input type="text" class="form-control" name="cpf" placeholder="CPF">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3 col-sm-6 mb-2">
                                 <input type="text" class="form-control" name="nome" placeholder="Nome">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3 col-sm-6 mb-2">
                                 <input type="date" class="form-control" name="data_nascimento" placeholder="Data de Nascimento">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3 col-sm-6 mb-2">
                                 <select class="form-control" name="sexo">
                                     <option value="">Sexo</option>
                                     <option value="homem">Homem</option>
                                     <option value="mulher">Mulher</option>
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-3 col-sm-6 mb-2">
                                 <input type="text" class="form-control" name="endereco" placeholder="Endereço">
                             </div>
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" name="estado" placeholder="Estado">
+                            <div class="col-md-3 col-sm-6 mb-2">
+                                <select class="form-control" name="estado" id="estado">
+                                    <option value="">Selecione o Estado</option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="form-row mt-2">
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" name="cidade" placeholder="Cidade">
+                            <div class="col-md-3 col-sm-6 mb-2">
+                                <select class="form-control" name="cidade" id="cidade">
+                                    <option value="">Selecione a Cidade</option>
+                                </select>
                             </div>
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-primary">Filtrar</button>
-                                <button type="reset" class="btn btn-secondary ml-2">Limpar</button>
+                            <div class="col-md-3 col-sm-6 mb-2 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary mr-2">Filtrar</button>
+                                <button type="reset" class="btn btn-secondary">Limpar</button>
                             </div>
                         </div>
                     </form>
+
+
                 </div>
             </div>
         </div>
