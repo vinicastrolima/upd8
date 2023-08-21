@@ -153,7 +153,9 @@
         });
 
         $(document).on('click', '.modal .close, .modal .btn-secondary', function() {
-            $('.modal-backdrop').remove();
+            var clienteId = $(this).closest('.modal').attr('id').replace('excluirModal', '');
+            $('.modal-backdrop').remove(); // Remover apenas o backdrop
+            $('#excluirModal' + clienteId).modal('hide');
         });
 
         $(document).on('click', '#confirmarExclusao', function() {
