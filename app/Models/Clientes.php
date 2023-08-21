@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Estado;
+use App\Models\Municipio;
 
 class Cliente extends Model
 {
