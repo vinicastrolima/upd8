@@ -132,18 +132,34 @@ class ClientesController extends Controller
 
     public function buscarClientes(Request $request)
     {
-        $termos = $request->input('termos'); // Array com os termos de pesquisa
+        $termos = $request->input('termos');
+
+        // Verificar se $termos é nulo ou não
+        if ($termos === null) {
+            $termos = [];
+        }
 
         $clientes = Cliente::query()->with('estado', 'municipio');
-    
-        foreach ($termos as $campo => $termo) {
+
+        // Verificar se há algum termo definido
+        $termosVazios = true;
+        foreach ($termos as $termo) {
             if ($termo) {
-                if ($campo === 'estado_id' || $campo === 'cidade_id') {
-                    $clientes->whereHas($campo, function ($query) use ($termo) {
-                        $query->where('nome', 'LIKE', "%$termo%");
-                    });
-                } else {
-                    $clientes->orWhere($campo, 'LIKE', "%$termo%");
+                $termosVazios = false;
+                break;
+            }
+        }
+
+        if (!$termosVazios) {
+            foreach ($termos as $campo => $termo) {
+                if ($termo) {
+                    if ($campo === 'estado_id' || $campo === 'cidade_id') {
+                        $clientes->whereHas($campo, function ($query) use ($termo) {
+                            $query->where('nome', 'LIKE', "%$termo%");
+                        });
+                    } else {
+                        $clientes->orWhere($campo, 'LIKE', "%$termo%");
+                    }
                 }
             }
         }
@@ -152,6 +168,7 @@ class ClientesController extends Controller
 
         return response()->json($clientes);
     }
+
 
     /**
      * Remove the specified resource from storage.

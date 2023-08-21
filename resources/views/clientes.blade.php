@@ -225,6 +225,11 @@
 
             filtrarClientes(termos); // Chamar a função de filtragem com os termos
         });
+
+        formFiltrar.on('reset', function(event) {
+            event.preventDefault();
+            filtrarClientes(); 
+        });
     });
 
     $(document).ready(function() {
