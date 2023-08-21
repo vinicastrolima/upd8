@@ -130,6 +130,29 @@ class ClientesController extends Controller
         return response('', 200);
     }
 
+    public function buscarClientes(Request $request)
+    {
+        $termos = $request->input('termos'); // Array com os termos de pesquisa
+
+        $clientes = Cliente::query();
+
+        foreach ($termos as $campo => $termo) {
+            if ($termo) {
+                if ($campo === 'estado_id' || $campo === 'cidade_id') {
+                    $clientes->whereHas($campo, function ($query) use ($termo) {
+                        $query->where('nome', 'LIKE', "%$termo%");
+                    });
+                } else {
+                    $clientes->orWhere($campo, 'LIKE', "%$termo%");
+                }
+            }
+        }
+
+        $clientes = $clientes->get();
+
+        return response()->json($clientes);
+    }
+
     /**
      * Remove the specified resource from storage.
      */

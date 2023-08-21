@@ -149,6 +149,63 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function() {
+        const formFiltrar = $('#form-filtrar');
+
+        function carregarClientes(clientes) {
+            var tableBody = $('#table-body');
+            tableBody.empty();
+
+            clientes.forEach(function(cliente) {
+                var row = '<tr>' +
+                    '<td>' + cliente.cpf + '</td>' +
+                    '<td>' + cliente.nome + '</td>' +
+                    '<td>' + cliente.data_nascimento + '</td>' +
+                    '<td>' + cliente.sexo + '</td>' +
+                    '<td>' + cliente.endereco + '</td>' +
+                    '<td>' + cliente.estado.nome + '</td>' +
+                    '<td>' + cliente.municipio.nome + '</td>' +
+                    '<td>' +
+                    '<div class="d-flex justify-content-between">' +
+                    '<button class="btn btn-success editar-btn" data-toggle="modal" data-target="#editarModal" data-id="' + cliente.id + '">Editar</button>' +
+                    '<button class="btn btn-danger excluir-btn" data-toggle="modal" data-target="#excluirModal' + cliente.id + '" data-id="' + cliente.id + '" data-cpf="' + cliente.cpf + '" data-nome="' + cliente.nome + '">Excluir</button>' +
+                    '</div>' +
+                    '</td>' +
+                    '</tr>';
+                tableBody.append(row);
+            });
+        }
+
+        function filtrarClientes(termos) {
+            $.ajax({
+                url: '/api/buscar-clientes', // Rota para a função de busca/filtragem no backend
+                type: 'GET',
+                data: { termos: termos },
+                success: function(data) {
+                    carregarClientes(data); // Chamar a função carregarClientes() com os dados filtrados
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        formFiltrar.on('submit', function(event) {
+            event.preventDefault();
+            const termos = {
+                cpf: $('input[name="cpf"]').val(),
+                nome: $('input[name="nome"]').val(),
+                data_nascimento: $('input[name="data_nascimento"]').val(),
+                sexo: $('select[name="sexo"]').val(),
+                endereco: $('input[name="endereco"]').val(),
+                estado_id: $('select[name="estado"]').val(),
+                cidade_id: $('select[name="cidade"]').val()
+            };
+
+            filtrarClientes(termos); // Chamar a função de filtragem com os termos
+        });
+    });
+
+    $(document).ready(function() {
 
         $(document).on('click', '.editar-btn', function() {
             var clienteId = $(this).data('id');

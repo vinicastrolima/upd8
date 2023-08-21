@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>@yield('title', 'Minha Aplicação')</title>
+    <title>@yield('title', 'UPD8')</title>
     <!-- Links para os arquivos CSS do Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Link para o seu arquivo CSS personalizado -->

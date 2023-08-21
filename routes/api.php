@@ -23,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('clientes', ClientesController::class);
 
 Route::get('/estados-cidades', [ClientesController::class,"obterEstadosECidades"]);
+
+Route::get('/buscar-clientes', [ClientesController::class,"buscarClientes"])->name('buscar.clientes');
