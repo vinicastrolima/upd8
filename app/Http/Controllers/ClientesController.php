@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Clientes;
+use App\Models\Estado;
+
 use Illuminate\Http\Request;
 
 class ClientesController extends Controller
@@ -22,7 +24,8 @@ class ClientesController extends Controller
     public function create()
     {
         $cliente = Cliente::findOrFail($id);
-        return response()->json($cliente);
+        $estados = Estado::all();
+        return response()->json($cliente)->compat('estados');
     }
 
     /**

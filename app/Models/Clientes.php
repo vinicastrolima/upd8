@@ -15,4 +15,14 @@ class Cliente extends Model
         'estado',
         'cidade',
     ];
+
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class, 'estado_id');
+    }
+
+    public function cidade()
+    {
+        return $this->belongsTo(Municipio::class, 'cidade_id');
+    }
 }
