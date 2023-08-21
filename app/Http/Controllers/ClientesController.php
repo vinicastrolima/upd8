@@ -32,6 +32,13 @@ class ClientesController extends Controller
         return response()->json($cliente)->compat('estados');
     }
 
+    public function obterEstadosECidades()
+    {
+        $estadosComCidades = Estado::with('municipio')->get();
+
+        return response()->json($estadosComCidades);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

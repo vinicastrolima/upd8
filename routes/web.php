@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('/clientes', function () {
     return view('clientes');
 });
+
+Route::get('/clientes/cadastrar', function () {
+    return view('clientes.create');
+});

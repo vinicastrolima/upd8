@@ -19,9 +19,9 @@ class Cliente extends Model
     ];
 
     public function municipio()
-{
-    return $this->belongsTo(Municipio::class, 'cidade_id');
-}
+    {
+        return $this->belongsTo(Municipio::class, 'cidade_id');
+    }
 
     public function estado()
     {

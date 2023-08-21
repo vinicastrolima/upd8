@@ -80,16 +80,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Capturar o clique no botão de exclusão
         $('.excluir-btn').click(function() {
             var clienteId = $(this).data('id');
 
-            // Confirmar se o usuário deseja realmente excluir
             $.ajax({
                 url: '/api/clientes/' + clienteId,
                 type: 'DELETE',
                 success: function(response) {
-                    // Atualizar a tabela
                     carregarClientes();
                 },
                 error: function(error) {
@@ -98,7 +95,6 @@
             });
         });
 
-        // Função para carregar os clientes na tabela
         function carregarClientes() {
             $.ajax({
                 url: '/api/clientes',
@@ -108,7 +104,6 @@
                     tableBody.empty();
 
                     data.forEach(function(cliente) {
-                        // Montar a linha da tabela
                         var row = '<tr>' +
                             '<td>' + cliente.cpf + '</td>' +
                             '<td>' + cliente.nome + '</td>' +
@@ -133,7 +128,6 @@
             });
         }
 
-        // Carregar clientes inicialmente
         carregarClientes();
     });
 </script>

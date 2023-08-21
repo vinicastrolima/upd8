@@ -12,7 +12,7 @@ class Estado extends Model
     protected $fillable = ['nome'];
 
     public function municipio()
-    {
-        return $this->belongsTo(Municipio::class);
-    }
+{
+    return $this->hasMany(Municipio::class);
+}
 }

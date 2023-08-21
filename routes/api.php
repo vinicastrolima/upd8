@@ -21,3 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::apiResource('clientes', ClientesController::class);
+
+Route::get('/estados-cidades', [ClientesController::class,"obterEstadosECidades"]);

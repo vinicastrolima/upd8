@@ -9,8 +9,8 @@
             <li class="nav-item {{ Request::is('clientes') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('clientes.index') }}">Visualizar Clientes</a>
             </li>
-            <li class="nav-item {{ Request::is('clientes/create') ? 'active' : '' }}">
-                <a class="nav-link" href="">Cadastrar Clientes</a>
+            <li class="nav-item {{ Request::is('clientes/cadastrar') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ url('clientes/cadastrar') }}">Cadastrar Clientes</a>
             </li>
         </ul>
     </div>
