@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Estado;
@@ -14,8 +14,8 @@ class Cliente extends Model
         'data_nascimento',
         'sexo',
         'endereco',
-        'estado',
-        'cidade',
+        'estado_id',
+        'cidade_id',
     ];
 
     public function estado()

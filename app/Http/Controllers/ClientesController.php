@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Clientes;
+use App\Models\Cliente;
 use App\Models\Estado;
-
+use App\Models\Municipio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class ClientesController extends Controller
 {
@@ -33,14 +36,43 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-        $cliente = Cliente::create($request->all());
+        // Validar os dados do request
+        $validator = Validator::make($request->all(), [
+            'cpf' => 'required|string|size:11|unique:clientes,cpf',
+            'nome' => 'required|string|max:100',
+            'data_nascimento' => 'required|date',
+            'sexo' => 'required|string|in:homem,mulher',
+            'endereco' => 'required|string|max:300',
+            'estado_id' => 'required|exists:estados,id',
+            'cidade_id' => 'required|exists:municipios,id',
+        ]);
+
+        // Se houver erros de validação, retornar as mensagens de erro
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        // Remover caracteres especiais do CPF
+        $cpf = preg_replace('/[^0-9]/', '', $request->cpf);
+
+        // Criar o cliente
+        $cliente = Cliente::create([
+            'cpf' => $cpf,
+            'nome' => $request->nome,
+            'data_nascimento' => $request->data_nascimento,
+            'sexo' => $request->sexo,
+            'endereco' => $request->endereco,
+            'estado_id' => $request->estado_id,
+            'cidade_id' => $request->cidade_id,
+        ]);
+
         return response()->json($cliente, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Clientes $clientes)
+    public function show(Cliente $clientes)
     {
         $cliente = Cliente::findOrFail($id);
         $cliente->update($request->all());
@@ -50,7 +82,7 @@ class ClientesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Clientes $clientes)
+    public function update(Request $request, Cliente $clientes)
     {
         $cliente = Cliente::findOrFail($id);
         $cliente->update($request->all());
@@ -60,7 +92,7 @@ class ClientesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Clientes $clientes)
+    public function destroy( $clientes)
     {
         $cliente = Cliente::findOrFail($id);
         $cliente->delete();

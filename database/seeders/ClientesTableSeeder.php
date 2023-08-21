@@ -4,6 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+
+
 
 class ClientesTableSeeder extends Seeder
 {
@@ -17,10 +21,10 @@ class ClientesTableSeeder extends Seeder
                 'cpf' => '12345678901',
                 'nome' => 'João Silva',
                 'data_nascimento' => '1990-05-15',
-                'sexo' => 'M',
+                'sexo' => 'homem',
                 'endereco' => 'Rua A, 123',
-                'estado' => 'São Paulo',
-                'cidade' => 'São Paulo',
+                'estado_id' => 1,
+                'cidade_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -28,10 +32,10 @@ class ClientesTableSeeder extends Seeder
                 'cpf' => '98765432101',
                 'nome' => 'Maria Santos',
                 'data_nascimento' => '1985-08-25',
-                'sexo' => 'F',
+                'sexo' => 'mulher',
                 'endereco' => 'Avenida B, 456',
-                'estado' => 'Rio de Janeiro',
-                'cidade' => 'Rio de Janeiro',
+                'estado_id' => 2,
+                'cidade_id' => 7,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
