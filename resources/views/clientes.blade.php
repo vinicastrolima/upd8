@@ -146,13 +146,14 @@
             var clienteCpf = $(this).data('cpf');
             var clienteNome = $(this).data('nome');
 
-            console.log("CPF:", clienteCpf);
-            console.log("Nome:", clienteNome);
-
             $('#excluirCpf' + clienteId).text(clienteCpf);
             $('#excluirNome' + clienteId).text(clienteNome);
 
             $('#excluirModal' + clienteId).modal('show');
+        });
+
+        $(document).on('click', '.modal .close, .modal .btn-secondary', function() {
+            $('.modal-backdrop').remove();
         });
 
         $(document).on('click', '#confirmarExclusao', function() {
@@ -164,6 +165,10 @@
                 success: function(response) {
                     carregarClientes();
                     $('#excluirModal' + clienteId).modal('hide');
+                    $('#excluirModal' + clienteId).on('hidden.bs.modal', function () {
+                        $(this).remove(); 
+                        $('.modal-backdrop').remove();
+                    });
                 },
                 error: function(error) {
                     console.log(error);
