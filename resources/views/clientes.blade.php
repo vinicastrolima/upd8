@@ -10,46 +10,35 @@
                     <!-- Formulário de filtragem -->
                     <form id="form-filtrar">
                         <div class="form-row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="text" class="form-control" name="cpf" placeholder="CPF">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="text" class="form-control" name="nome" placeholder="Nome">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="date" class="form-control" name="data_nascimento" placeholder="Data de Nascimento">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <select class="form-control" name="sexo">
                                     <option value="">Sexo</option>
                                     <option value="homem">Homem</option>
                                     <option value="mulher">Mulher</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-row mt-2">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <input type="text" class="form-control" name="endereco" placeholder="Endereço">
                             </div>
-                            <div class="col-md-4">
-                                <select class="form-control" id="estado" name="estado_id">
-                                    <!-- Opções de estado aqui, se necessário -->
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-control" id="cidade" name="cidade_id">
-                                    <!-- Opções de cidade populadas dinamicamente -->
-                                </select>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="estado" placeholder="Estado">
                             </div>
                         </div>
                         <div class="form-row mt-2">
-                            <div class="col-md-6">
-                                <!-- Espaço vazio para manter a formatação correta -->
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="cidade" placeholder="Cidade">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <button type="submit" class="btn btn-primary">Filtrar</button>
-                            </div>
-                            <div class="col-md-3">
                                 <button type="reset" class="btn btn-secondary ml-2">Limpar</button>
                             </div>
                         </div>
@@ -162,59 +151,37 @@
     $(document).ready(function() {
         const formFiltrar = $('#form-filtrar');
 
+        function carregarClientes(clientes) {
+            var tableBody = $('#table-body');
+            tableBody.empty();
+
+            clientes.forEach(function(cliente) {
+                var row = '<tr>' +
+                    '<td>' + cliente.cpf + '</td>' +
+                    '<td>' + cliente.nome + '</td>' +
+                    '<td>' + cliente.data_nascimento + '</td>' +
+                    '<td>' + cliente.sexo + '</td>' +
+                    '<td>' + cliente.endereco + '</td>' +
+                    '<td>' + cliente.estado.nome + '</td>' +
+                    '<td>' + cliente.municipio.nome + '</td>' +
+                    '<td>' +
+                    '<div class="d-flex justify-content-between">' +
+                    '<button class="btn btn-success editar-btn" data-toggle="modal" data-target="#editarModal" data-id="' + cliente.id + '">Editar</button>' +
+                    '<button class="btn btn-danger excluir-btn" data-toggle="modal" data-target="#excluirModal' + cliente.id + '" data-id="' + cliente.id + '" data-cpf="' + cliente.cpf + '" data-nome="' + cliente.nome + '">Excluir</button>' +
+                    '</div>' +
+                    '</td>' +
+                    '</tr>';
+                tableBody.append(row);
+            });
+        }
+
         function filtrarClientes(termos) {
             $.ajax({
                 url: '/api/buscar-clientes', // Rota para a função de busca/filtragem no backend
                 type: 'GET',
                 data: { termos: termos },
                 success: function(data) {
-                    var tableBody = $('#table-body');
-                    tableBody.empty();
-                    console.log('Apagou a tabela')
-
-                    data.forEach(function(cliente) {
-                        var row = '<tr>' +
-                            '<td>' + cliente.cpf + '</td>' +
-                            '<td>' + cliente.nome + '</td>' +
-                            '<td>' + cliente.data_nascimento + '</td>' +
-                            '<td>' + cliente.sexo + '</td>' +
-                            '<td>' + cliente.endereco + '</td>' +
-                            '<td>' + cliente.estado.nome + '</td>' +
-                            '<td>' + cliente.municipio.nome + '</td>' +
-                            '<td>' +
-                            '<div class="d-flex justify-content-between">' +
-                            '<button class="btn btn-success editar-btn" data-toggle="modal" data-target="#editarModal" data-id="' + cliente.id + '">Editar</button>' +
-                            '<button class="btn btn-danger excluir-btn" data-toggle="modal" data-target="#excluirModal' + cliente.id + '" data-id="' + cliente.id + '" data-cpf="' + cliente.cpf + '" data-nome="' + cliente.nome + '">Excluir</button>' +
-                            '</div>' +
-                            '</td>' +
-                            '</tr>';
-                        tableBody.append(row);
-
-                        // Criação do modal para este cliente
-                        var modal = '<div class="modal fade" id="excluirModal' + cliente.id + '" tabindex="-1" aria-labelledby="excluirModalLabel" aria-hidden="true">' +
-                            '<div class="modal-dialog">' +
-                            '<div class="modal-content">' +
-                            '<div class="modal-header">' +
-                            '<h5 class="modal-title" id="excluirModalLabel">Excluir Cliente</h5>' +
-                            '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-                            '<span aria-hidden="true">&times;</span>' +
-                            '</button>' +
-                            '</div>' +
-                            '<div class="modal-body">' +
-                            '<p>Tem certeza de que deseja excluir o cliente?</p>' +
-                            '<p><strong>CPF:</strong> <span id="excluirCpf' + cliente.id + '"></span></p>' +
-                            '<p><strong>Nome:</strong> <span id="excluirNome' + cliente.id + '"></span></p>' +
-                            '</div>' +
-                            '<div class="modal-footer">' +
-                            '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>' +
-                            '<button type="button" class="btn btn-danger" id="confirmarExclusao">Confirmar</button>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>';
-                        $('body').append(modal);
-                    });
-                    console.log('tentou montar o modal')
+                    carregarClientes(data); // Chamar a função carregarClientes() com os dados filtrados
                 },
                 error: function(error) {
                     console.log(error);
@@ -235,11 +202,6 @@
             };
 
             filtrarClientes(termos); // Chamar a função de filtragem com os termos
-        });
-
-        formFiltrar.on('reset', function(event) {
-            event.preventDefault();
-            filtrarClientes(); 
         });
     });
 
