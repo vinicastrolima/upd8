@@ -18,13 +18,13 @@ class Cliente extends Model
         'cidade_id',
     ];
 
+    public function municipio()
+{
+    return $this->belongsTo(Municipio::class, 'cidade_id');
+}
+
     public function estado()
     {
-        return $this->belongsTo(Estado::class, 'estado_id');
-    }
-
-    public function cidade()
-    {
-        return $this->belongsTo(Municipio::class, 'cidade_id');
+        return $this->belongsTo(Estado::class);
     }
 }

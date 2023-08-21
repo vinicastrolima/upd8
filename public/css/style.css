@@ -1,0 +1,92 @@
+:root {
+    --cor-primaria: #3498db; /* Azul */
+    --cor-secundaria: #e74c3c; /* Vermelho */
+    --cor-terciaria: #2c3e50; /* Cinza escuro / Azul */
+    --cor-fundo: #333; /* Cinza escuro */
+    --cor-fundo-card: #333; /* Mesmo fundo de Buscar Clientes */
+    --cor-linha-impar: #f2f2f2; /* Cor das linhas ímpares da tabela */
+    --cor-linha-par: #ffffff; /* Cor das linhas pares da tabela */
+}
+
+/* Estilos do header */
+.navbar {
+    background-color: black; /* Cor preta para o menu */
+}
+
+.navbar-brand {
+    color: white;
+    font-weight: bold;
+}
+
+.nav-link {
+    color: white;
+}
+
+.texto-cinza {
+    color: var(--cor-linha-impar);
+}
+
+/* Estilos do card de filtragem */
+.card {
+    background-color: var(--cor-fundo);
+    border: none;
+    margin-bottom: 20px; /* Espaçamento inferior */
+}
+
+/* Estilos da tabela */
+.table {
+    background-color: white;
+}
+
+/* Estilos dos botões */
+.btn-primary {
+    background-color: var(--cor-primaria);
+    border-color: var(--cor-primaria);
+}
+
+.btn-secondary {
+    background-color: var(--cor-secundaria);
+    border-color: var(--cor-secundaria);
+    color: white;
+}
+
+/* Estilos gerais */
+body {
+    background-color: var(--cor-fundo);
+    color: white;
+}
+
+/* Estilos específicos para elementos azuis */
+.texto-azul {
+    color: var(--cor-primaria);
+}
+
+.fundo-azul {
+    background-color: var(--cor-primaria);
+    color: white;
+}
+
+/* Estilos específicos para elementos cinza escuro / azul */
+.texto-terciario {
+    color: var(--cor-terciaria);
+}
+
+.fundo-terciario {
+    background-color: var(--cor-terciaria);
+    color: white;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.table td .btn {
+    flex: 1; 
+    max-width: 45%; 
+    margin: 0 2px; 
+    white-space: nowrap;
+}

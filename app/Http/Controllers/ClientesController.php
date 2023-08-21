@@ -17,7 +17,8 @@ class ClientesController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::all();
+        $clientes = Cliente::with('estado', 'municipio')->get();
+
         return response()->json($clientes);
     }
 

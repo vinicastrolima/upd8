@@ -1,74 +1,140 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Lista de Clientes</h1>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <!-- Formulário de filtragem -->
-                        <form id="form-filtrar">
-                            <div class="form-row">
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" name="cpf" placeholder="CPF">
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" name="nome" placeholder="Nome">
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="date" class="form-control" name="data_nascimento" placeholder="Data de Nascimento">
-                                </div>
-                                <div class="col-md-2">
-                                    <select class="form-control" name="sexo">
-                                        <option value="">Sexo</option>
-                                        <option value="homem">Homem</option>
-                                        <option value="mulher">Mulher</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" name="endereco" placeholder="Endereço">
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" name="estado" placeholder="Estado">
-                                </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card fundo-terciario rounded">
+                <div class="card-body">
+                    <h1 class="texto-cinza">Buscar Clientes</h1>
+                    <!-- Formulário de filtragem -->
+                    <form id="form-filtrar">
+                        <div class="form-row">
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="cpf" placeholder="CPF">
                             </div>
-                            <div class="form-row mt-2">
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" name="cidade" placeholder="Cidade">
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary">Filtrar</button>
-                                    <button type="reset" class="btn btn-secondary ml-2">Limpar</button>
-                                </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="nome" placeholder="Nome">
                             </div>
-                        </form>
-                    </div>
+                            <div class="col-md-2">
+                                <input type="date" class="form-control" name="data_nascimento" placeholder="Data de Nascimento">
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-control" name="sexo">
+                                    <option value="">Sexo</option>
+                                    <option value="homem">Homem</option>
+                                    <option value="mulher">Mulher</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="endereco" placeholder="Endereço">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="estado" placeholder="Estado">
+                            </div>
+                        </div>
+                        <div class="form-row mt-2">
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="cidade" placeholder="Cidade">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary">Filtrar</button>
+                                <button type="reset" class="btn btn-secondary ml-2">Limpar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <table class="table">
-                    <!-- Cabeçalho da tabela -->
-                    <thead>
-                        <tr>
-                            <th>CPF</th>
-                            <th>Nome</th>
-                            <th>Data de Nascimento</th>
-                            <th>Sexo</th>
-                            <th>Endereço</th>
-                            <th>Estado</th>
-                            <th>Cidade</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <!-- Corpo da tabela -->
-                    <tbody id="table-body">
-                        <!-- Os dados dos clientes serão preenchidos aqui via AJAX -->
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card fundo-terciario rounded">
+                <div class="card-body">
+                    <h1 class="texto-cinza">Lista de Clientes</h1>
+                    <table class="table tabela-lista">
+                        <thead>
+                            <tr class="texto-cinza fundo-terciario">
+                                <th>CPF</th>
+                                <th>Nome</th>
+                                <th>Data de Nascimento</th>
+                                <th>Sexo</th>
+                                <th>Endereço</th>
+                                <th>Estado</th>
+                                <th>Cidade</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <!-- Os dados dos clientes serão preenchidos aqui via AJAX -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
-    <!-- Seu código JavaScript aqui -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Capturar o clique no botão de exclusão
+        $('.excluir-btn').click(function() {
+            var clienteId = $(this).data('id');
+
+            // Confirmar se o usuário deseja realmente excluir
+            $.ajax({
+                url: '/api/clientes/' + clienteId,
+                type: 'DELETE',
+                success: function(response) {
+                    // Atualizar a tabela
+                    carregarClientes();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        // Função para carregar os clientes na tabela
+        function carregarClientes() {
+            $.ajax({
+                url: '/api/clientes',
+                type: 'GET',
+                success: function(data) {
+                    var tableBody = $('#table-body');
+                    tableBody.empty();
+
+                    data.forEach(function(cliente) {
+                        // Montar a linha da tabela
+                        var row = '<tr>' +
+                            '<td>' + cliente.cpf + '</td>' +
+                            '<td>' + cliente.nome + '</td>' +
+                            '<td>' + cliente.data_nascimento + '</td>' +
+                            '<td>' + cliente.sexo + '</td>' +
+                            '<td>' + cliente.endereco + '</td>' +
+                            '<td>' + cliente.estado.nome + '</td>' +
+                            '<td>' + cliente.municipio.nome + '</td>' +
+                            '<td>' +
+                            '<div class="d-flex justify-content-between">' +
+                            '<button class="btn btn-success editar-btn">Editar</button>' +
+                            '<button class="btn btn-danger excluir-btn" data-id="' + cliente.id + '">Excluir</button>' +
+                            '</div>' +
+                            '</td>' +
+                            '</tr>';
+                        tableBody.append(row);
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        // Carregar clientes inicialmente
+        carregarClientes();
+    });
+</script>
 @endsection
