@@ -304,7 +304,7 @@
                     $('#data_nascimento').val(cliente.data_nascimento);
                     $('#sexo').val(cliente.sexo);
                     $('#endereco').val(cliente.endereco);
-                    $('#estado').val(cliente.estado_id);
+                    $('#estadoEDIT').val(cliente.estado_id);
                     preencherCidades(cliente.estado_id);
                     $('#cidade').val(cliente.cidade_id);
 
@@ -423,9 +423,9 @@
             var novoSexo = $('#sexo').val();
             var novaData = $('#data_nascimento').val();
             var novoEndereço = $('#endereco').val();
-            var novoEstado = $('#estado').val();
-            var novaCidade = $('#cidade').val();
-            console.log(novoEstado, novoEstado);
+            var novoEstado = $('#estadoEdit').val();
+            var novaCidade = $('#cidadeEdit').val();
+            // console.log(novoEstado, novoEstado);
 
 
             var dadosEditados = {
