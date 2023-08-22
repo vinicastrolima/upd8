@@ -46,7 +46,7 @@ class ClientesController extends Controller
     {
         // Validar os dados do request
         $validator = Validator::make($request->all(), [
-            'cpf' => 'required|string|size:11|unique:clientes,cpf',
+            'cpf' => 'required|string|unique:clientes,cpf',
             'nome' => 'required|string|max:100',
             'data_nascimento' => 'required|date',
             'sexo' => 'required|string|in:homem,mulher',
@@ -96,19 +96,13 @@ class ClientesController extends Controller
     {
         // Validar os dados do request
         $validator = Validator::make($request->all(), [
-            'cpf' => [
-                'required',
-                'string',
-                'size:14',
-                Rule::unique('clientes')->ignore($cliente->id),
-            ],
+            'cpf' => 'required|string|unique:clientes,cpf',
             'nome' => 'required|string|max:100',
             'data_nascimento' => 'required|date',
             'sexo' => 'required|string|in:homem,mulher',
             'endereco' => 'required|string|max:300',
             'estado_id' => 'required|exists:estados,id',
             'cidade_id' => 'required|exists:municipios,id',
-
         ]);
 
         // Se houver erros de validação, retornar as mensagens de erro
@@ -116,9 +110,12 @@ class ClientesController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
+        // Remover caracteres especiais do CPF
+        $cpf = preg_replace('/[^0-9]/', '', $request->cpf);
+
         // Atualizar o cliente
         $cliente->update([
-            'cpf' => $request->cpf,
+            'cpf' => $cpf,
             'nome' => $request->nome,
             'data_nascimento' => $request->data_nascimento,
             'sexo' => $request->sexo,

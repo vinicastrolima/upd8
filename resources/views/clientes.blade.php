@@ -126,13 +126,13 @@
                     <div class="form-row mt-2">
                         <div class="col-md-6">
                             <label for="estado">Estado</label>
-                            <select class="form-control" id="estado" name="estado_id">
+                            <select class="form-control" id="estadoEdit" name="estado_id">
                                 <!-- Opções de estado aqui, se necessário -->
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label for="cidade">Cidade</label>
-                            <select class="form-control" id="cidade" name="cidade_id">
+                            <select class="form-control" id="cidadeEdit" name="cidade_id">
                                 <!-- Opções de cidade populadas dinamicamente -->
                             </select>
                         </div>
@@ -153,8 +153,62 @@
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
 <script>
     $(document).ready(function() {
+
+        function preencherCidadesEdit(estadoId) {
+            const cidadeSelectEdit = $("#cidadeEdit");
+            cidadeSelectEdit.empty();
+
+            const estado = estadosECidades.find(item => item.id == estadoId);
+
+            if (estado) {
+                estado.municipio.forEach(cidade => {
+                    const option = $("<option>").val(cidade.id).text(cidade.nome);
+                    cidadeSelectEdit.append(option);
+                });
+            }
+        }
+
+        // Fazer a chamada AJAX para buscar estados e cidades
+        $.ajax({
+            url: '/api/estados-cidades',
+            type: 'GET',
+            success: function(data) {
+                estadosECidades = data; // Armazena os dados de estados e cidades
+
+                // Preenche o select de estados no modal de edição
+                const estadoSelectEdit = $("#estadoEdit");
+                estadoSelectEdit.empty().append($("<option>").val("").text("Selecione o Estado"));
+                estadosECidades.forEach(estado => {
+                    const option = $("<option>").val(estado.id).text(estado.nome);
+                    estadoSelectEdit.append(option);
+                });
+            },
+            error: function(error) {
+                console.error("Erro ao buscar estados e cidades:", error);
+            }
+        });
+
+        // Configura evento de mudança no select de estado no modal de edição
+        $("#estadoEdit").on("change", function() {
+            const estadoId = $(this).val();
+            preencherCidadesEdit(estadoId);
+        });
+
+        // Resto do seu código para abrir o modal e preencher os campos
+        // ...
+
+    
+
+
+        $("#cpf").inputmask("999.999.999-99", {
+            placeholder: "___.___.___-__", // Define o padrão de máscara
+            clearIncomplete: true // Limpa o campo se a entrada estiver incompleta
+        });
+
         const formFiltrar = $('#form-filtrar');
 
         function carregarClientes(clientes) {

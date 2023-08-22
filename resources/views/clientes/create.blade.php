@@ -69,9 +69,43 @@
 
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Certifique-se de incluir o jQuery no seu HTML -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
 
 <script>
     $(document).ready(function() {
+        $("#cpf").inputmask("999.999.999-99", {
+            placeholder: "___.___.___-__", // Define o padrão de máscara
+            clearIncomplete: true // Limpa o campo se a entrada estiver incompleta
+        });
+
+        $("#form-cadastrar").on("submit", function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            // Realize as validações dos campos do formulário aqui
+            // Por exemplo, validar CPF, nome, data de nascimento, etc.
+
+            // Se as validações passarem, envie o formulário via AJAX
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/clientes',
+                type: 'POST',
+                data: $(this).serialize(), // Pega os dados do formulário
+                success: function(response, status, xhr) {
+                    if (xhr.status === 200) {
+                        alert('Cliente cadastrado com sucesso');
+                        location.reload(); // Recarrega a página
+                    } else {
+                        alert("Erro inesperado ao cadastrar cliente");
+                        console.error("Resposta inesperada:", xhr.status);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    const errorMessage = xhr.responseText || error;
+                    alert("Erro ao cadastrar cliente: " + errorMessage);
+                }
+            });
+        });
+
         const estadoSelect = $("#estado");
         const cidadeSelect = $("#cidade");
         let estadosECidades; // Variável para armazenar os dados de estados e cidades
