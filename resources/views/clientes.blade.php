@@ -304,9 +304,9 @@
                     $('#data_nascimento').val(cliente.data_nascimento);
                     $('#sexo').val(cliente.sexo);
                     $('#endereco').val(cliente.endereco);
-                    $('#estado').val(cliente.estado_id);
+                    $('#estadoEdit').val(cliente.estado_id);
                     preencherCidades(cliente.estado_id);
-                    $('#cidade').val(cliente.cidade_id);
+                    $('#cidadeEdit').val(cliente.cidade_id);
 
                     $('#editarModal').modal('show');
                 },
@@ -423,8 +423,8 @@
             var novoSexo = $('#sexo').val();
             var novaData = $('#data_nascimento').val();
             var novoEndereço = $('#endereco').val();
-            var novoEstado = $('#estado').val();
-            var novaCidade = $('#cidade').val();
+            var novoEstado = $('#estadoEdit').val();
+            var novaCidade = $('#cidadeEdit').val();
             console.log(novoEstado, novoEstado);
 
 
