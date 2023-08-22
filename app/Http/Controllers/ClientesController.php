@@ -96,7 +96,7 @@ class ClientesController extends Controller
     {
         // Validar os dados do request
         $validator = Validator::make($request->all(), [
-            'cpf' => 'required|string|unique:clientes,cpf',
+            'cpf' => 'required|string|unique:clientes,cpf,' . $cliente->id,
             'nome' => 'required|string|max:100',
             'data_nascimento' => 'required|date',
             'sexo' => 'required|string|in:homem,mulher',
@@ -113,8 +113,8 @@ class ClientesController extends Controller
         // Remover caracteres especiais do CPF
         $cpf = preg_replace('/[^0-9]/', '', $request->cpf);
 
-        // Atualizar o cliente
-        $cliente->update([
+        // Criar um array para armazenar os campos a serem atualizados
+        $camposAtualizados = [
             'cpf' => $cpf,
             'nome' => $request->nome,
             'data_nascimento' => $request->data_nascimento,
@@ -122,10 +122,22 @@ class ClientesController extends Controller
             'endereco' => $request->endereco,
             'estado_id' => $request->estado_id,
             'cidade_id' => $request->cidade_id,
-        ]);
+        ];
+
+        // Comparar os campos atuais com os novos valores e remover os campos iguais
+        $camposIguais = array_filter($camposAtualizados, function ($value, $key) use ($cliente) {
+            return $value == $cliente->$key;
+        }, ARRAY_FILTER_USE_BOTH);
+
+        // Remover campos iguais do array de campos a serem atualizados
+        $camposParaAtualizar = array_diff_assoc($camposAtualizados, $camposIguais);
+
+        // Atualizar o cliente apenas com os campos diferentes
+        $cliente->update($camposParaAtualizar);
 
         return response('', 200);
     }
+
 
     public function buscarClientes(Request $request)
     {
