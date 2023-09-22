@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Estado;
-use App\Models\Municipio;
+use App\Models\Cidade;
 
 class Cliente extends Model
 {
@@ -20,7 +20,7 @@ class Cliente extends Model
 
     public function municipio()
     {
-        return $this->belongsTo(Municipio::class, 'cidade_id');
+        return $this->belongsTo(Cidade::class, 'cidade_id');
     }
 
     public function estado()
